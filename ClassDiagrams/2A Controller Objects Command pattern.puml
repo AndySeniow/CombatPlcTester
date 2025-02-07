@@ -1,0 +1,30 @@
+@startuml
+class combat_plc_tester.controller.AddCombinatorialTransitionCommand
+class combat_plc_tester.controller.AddLabelCommand
+class combat_plc_tester.controller.AddSequentialTransitionCommand
+class combat_plc_tester.controller.AddStateCommand
+class combat_plc_tester.controller.DeleteLabelCommand
+class combat_plc_tester.controller.DeleteStateCommand
+class combat_plc_tester.controller.DeleteTransitionCommand
+class combat_plc_tester.controller.UpdateLabelCommand
+class combat_plc_tester.controller.UpdateStateCommand
+class combat_plc_tester.controller.UpdateTransitionCommand
+interface combat_plc_tester.controller.Command
+combat_plc_tester.controller.AddStateCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.DeleteLabelCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.DeleteStateCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.DeleteTransitionCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.UpdateStateCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.UpdateTransitionCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.UpdateLabelCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.AddSequentialTransitionCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.AddLabelCommand ..|> combat_plc_tester.controller.Command
+combat_plc_tester.controller.AddCombinatorialTransitionCommand ..|> combat_plc_tester.controller.Command
+note as N1
+  COMMAND PATTERN:
+  - The `Command` interface defines a standard method (e.g., `execute()`) 
+    for encapsulating all actions as objects.
+  - Each concrete command (e.g., `AddStateCommand`, `DeleteLabelCommand`) 
+    implements the `Command` interface.
+end note
+@enduml

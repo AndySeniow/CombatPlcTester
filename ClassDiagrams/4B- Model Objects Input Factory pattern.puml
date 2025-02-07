@@ -1,0 +1,39 @@
+@startuml
+class combat_plc_tester_controller.TestController
+class combat_plc_tester_model.ModelFacade
+abstract class combat_plc_tester_model.moore.Transition
+class combat_plc_tester_model.moore.CombinatorialTransition
+abstract combat_plc_tester_model.IO.Input
+class combat_plc_tester_model.IO.InputBit
+class combat_plc_tester_model.IO.InputByte
+class combat_plc_tester_model.IO.InputDInt
+class combat_plc_tester_model.IO.InputDWord
+class combat_plc_tester_model.IO.InputInt
+class combat_plc_tester_model.IO.InputReal
+class combat_plc_tester_model.IO.InputWord
+class combat_plc_tester_model.IO.PlcInputFactory
+enum combat_plc_tester_model.IO.PlcDataType
+interface combat_plc_tester_model.IO.InputFactory
+note as N1
+  FACTORY PATTERN DETAILS:
+  - PlcInputFactory is the concrete factory class.
+  - InputFactory is the factory interface.
+  - PlcInputFactory creates specific Input instances (e.g., InputBit, InputByte).
+  - PlcDataType is used to determine the type of Input to create.
+end note
+combat_plc_tester_model.moore.Transition *--> combat_plc_tester_model.IO.Input : contains
+combat_plc_tester_model.moore.CombinatorialTransition *--> combat_plc_tester_model.IO.Input : contains
+combat_plc_tester_model.IO.InputBit --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.InputByte --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.InputDInt --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.InputDWord --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.InputInt --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.InputReal --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.InputWord --|> combat_plc_tester_model.IO.Input
+combat_plc_tester_model.IO.PlcInputFactory ..> combat_plc_tester_model.IO.PlcDataType
+combat_plc_tester_model.IO.PlcInputFactory ..|> combat_plc_tester_model.IO.InputFactory
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.IO.InputFactory : use
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.ModelFacade : add input
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.moore.Transition : add input
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.moore.CombinatorialTransition: add input
+@enduml
