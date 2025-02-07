@@ -1,0 +1,45 @@
+@startuml
+class combat_plc_tester_controller.TestController
+class combat_plc_tester_model.ModelFacade
+class combat_plc_tester_model.moore.State
+abstract combat_plc_tester_model.IO.Output
+class combat_plc_tester_model.IO.OutputByte
+class combat_plc_tester_model.IO.OutputDInt
+class combat_plc_tester_model.IO.OutputDWord
+class combat_plc_tester_model.IO.OutputInt
+class combat_plc_tester_model.IO.OutputReal
+@startuml
+class combat_plc_tester_controller.TestController
+class combat_plc_tester_model.ModelFacade
+class combat_plc_tester_model.moore.State
+abstract combat_plc_tester_model.IO.Output
+class combat_plc_tester_model.IO.OutputByte
+class combat_plc_tester_model.IO.OutputDInt
+class combat_plc_tester_model.IO.OutputDWord
+class combat_plc_tester_model.IO.OutputInt
+class combat_plc_tester_model.IO.OutputReal
+class combat_plc_tester_model.IO.OutputWord
+class combat_plc_tester_model.IO.PlcOutputFactory
+enum combat_plc_tester_model.IO.PlcDataType
+interface combat_plc_tester_model.IO.OutputFactory
+note as N1
+  FACTORY PATTERN DETAILS:
+  - PlcOutputFactory is the concrete factory class.
+  - OutputFactory is the factory interface.
+  - PlcOutputFactory creates specific Output instances (e.g., OutputBit, OutputByte).
+  - PlcDataType is used to determine the type of Output to create.
+end note
+combat_plc_tester_model.moore.State *--> combat_plc_tester_model.IO.Output : contains
+combat_plc_tester_model.IO.OutputBit --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.OutputByte --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.OutputDInt --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.OutputDWord --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.OutputInt --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.OutputReal --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.OutputWord --|> combat_plc_tester_model.IO.Output
+combat_plc_tester_model.IO.PlcInputFactory ..> combat_plc_tester_model.IO.PlcDataType
+combat_plc_tester_model.IO.PlcInputFactory ..|> combat_plc_tester_model.IO.OutputFactory
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.IO.OutputFactory : use
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.ModelFacade : add output
+combat_plc_tester_controller.TestController --> combat_plc_tester_model.moore.State: add output
+@enduml

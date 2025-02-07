@@ -1,0 +1,39 @@
+@startuml
+abstract class combat_plc_tester.model.moore.GraphElement
+interface combat_plc_tester.model.moore.GraphElementRenderer
+class combat_plc_tester.model.moore.State
+class combat_plc_tester.model.moore.Transition
+class combat_plc_tester.model.moore.Label
+class combat_plc_tester.model.moore.CombinatorialTransition
+class combat_plc_tester.model.moore.SequentialTransition
+abstract class combat_plc_tester.model.IO.Outputs
+abstract class combat_plc_tester.model.IO.Inputs
+class combat_plc_tester.view.LabeledEllipseRenderer
+class combat_plc_tester.view.LabeledPathRenderer
+class combat_plc_tester.view.LabeledTextRenderer
+note as N1
+  BRIDGE PATTERN:
+  - GraphElement is the abstraction.
+  - GraphElementRenderer defines the interface for renderers.
+  - Concrete renderers implement GraphElementRenderer.
+end note
+note as N2
+  LabeledEllipseRenderer is a graphical representation of a State.
+  LabeledPathRenderer is a graphical representation of a Transition.
+  LabeledTextRenderer is a graphical representation of a Label.
+end note
+N1 -[hidden]-> N2
+combat_plc_tester.model.moore.Transition --|> combat_plc_tester.model.moore.GraphElement
+combat_plc_tester.model.moore.Transition *--> combat_plc_tester.model.IO.Inputs : contains
+combat_plc_tester.model.moore.CombinatorialTransition --|> combat_plc_tester.model.moore.Transition
+combat_plc_tester.model.moore.CombinatorialTransition *--> combat_plc_tester.model.IO.Inputs : contains
+combat_plc_tester.model.moore.SequentialTransition --|> combat_plc_tester.model.moore.Transition
+combat_plc_tester.model.moore.SequentialTransition <--* combat_plc_tester.model.moore.CombinatorialTransition : contains
+combat_plc_tester.model.moore.State --|> combat_plc_tester.model.moore.GraphElement
+combat_plc_tester.model.moore.State *--> combat_plc_tester.model.IO.Outputs : contains
+combat_plc_tester.model.moore.Label --|> combat_plc_tester.model.moore.GraphElement
+combat_plc_tester.model.moore.GraphElement *--> combat_plc_tester.model.moore.GraphElementRenderer : contains
+combat_plc_tester.view.LabeledEllipseRenderer ..|> combat_plc_tester.model.moore.GraphElementRenderer
+combat_plc_tester.view.LabeledPathRenderer ..|> combat_plc_tester.model.moore.GraphElementRenderer
+combat_plc_tester.view.LabeledTextRenderer ..|> combat_plc_tester.model.moore.GraphElementRenderer
+@enduml

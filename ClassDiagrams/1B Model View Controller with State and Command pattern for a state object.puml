@@ -1,0 +1,50 @@
+@startuml
+class combat_plc_test.view.ModelView
+class javax.swing.JPanel
+class combat_plc_test.controller.GraphController
+class combat_plc_test.controller.TestController
+interface combat_plc_test.controller.StateHandler
+class combat_plc_test.controller.AddStateHandler
+interface combat_plc_test.controller.Command
+class combat_plc_test.controller.AddStateCommand
+abstract class combat_plc_test.model.moore.GraphElement
+class combat_plc_test.model.moore.State
+class combat_plc_test.model.ModelFacade
+combat_plc_test.view.ModelView --|> javax.swing.JPanel
+combat_plc_test.view.ModelView --> combat_plc_test.controller.GraphController:panel events
+combat_plc_test.controller.GraphController *--> combat_plc_test.controller.StateHandler : contains
+combat_plc_test.controller.StateHandler <|.. combat_plc_test.controller.AddStateHandler
+combat_plc_test.controller.Command <|.. combat_plc_test.controller.AddStateCommand
+combat_plc_test.controller.Command <--* combat_plc_test.controller.TestController : contains
+combat_plc_test.controller.AddStateHandler --> combat_plc_test.controller.Command : creates
+combat_plc_test.controller.AddStateHandler --> combat_plc_test.controller.TestController : passes AddCommand
+combat_plc_test.controller.TestController --> combat_plc_test.model.moore.GraphElement : creates
+combat_plc_test.model.moore.GraphElement <|-- combat_plc_test.model.moore.State
+combat_plc_test.controller.AddStateCommand --> combat_plc_test.controller.TestController : execute()
+combat_plc_test.controller.TestController --> combat_plc_test.model.ModelFacade : add graphelement (as state)
+note as N1
+  MVC WITH STATE AND COMMAND PATTERN:
+  - **MVC Pattern**:
+    * `ModelView`: Handles user interactions and forwards events to the `GraphController`.
+    * `GraphController`: Acts as the controller that delegates actions to the appropriate `StateHandler`.
+    * `ModelFacade`: Manages the underlying model (e.g., `GraphElement` as `State` - Bridge pattern).
+  
+  - **State Pattern**:
+    * `StateHandler` defines a common interface for state-specific behaviors.
+    * `AddStateHandler` implements the behavior for adding a new state by creating an `AddStateCommand`.
+
+  - **Command Pattern**:
+    * `AddStateCommand` encapsulates the action of adding a new state to the model.
+    * The command is passed to the `TestController`, which executes the command and interacts with the `ModelFacade` to update the model.
+
+  - **Flow for Adding a Concrete State**:
+    1. User interaction in `ModelView` triggers an event.
+    2. `GraphController` delegates the action to `AddStateHandler`.
+    3. `AddStateHandler` creates an `AddStateCommand` and passes it to `TestController`.
+    4. `TestController` executes the command, which creates a `State` object and adds it to the model via the `ModelFacade`.
+  
+  -**Note**:
+    1. The graphical representation of a state can be found in the 
+       `4A Model Objects Bridge pattern` file.
+end note
+@enduml

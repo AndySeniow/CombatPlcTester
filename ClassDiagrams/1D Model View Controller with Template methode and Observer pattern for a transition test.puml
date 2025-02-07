@@ -1,0 +1,35 @@
+@startuml
+abstract class combat_plc_tester.model.moore.TransitionTest
+class combat_plc_tester.controller.TestController
+class combat_plc_tester.moore.ModelFacade
+class combat_plc_tester.model.moore.TransitionPlcTest
+class Moka7.S7Client
+interface combat_plc_tester.model.moore.IO.Input
+interface combat_plc_tester.controller.TransitionTestObserver
+class combat_plc_tester.controller.TransitionPlcTestObserver
+class combat_plc_tester.view.TestView
+combat_plc_tester.controller.TestController --> combat_plc_tester.moore.ModelFacade : execute test
+combat_plc_tester.moore.ModelFacade --> combat_plc_tester.model.moore.TransitionTest : execute transition test
+combat_plc_tester.controller.TransitionTestObserver <|.. combat_plc_tester.controller.TransitionPlcTestObserver
+combat_plc_tester.model.moore.TransitionTest --> Moka7.S7Client : connect
+combat_plc_tester.model.moore.TransitionPlcTest --> Moka7.S7Client : write inputs
+combat_plc_tester.model.moore.TransitionTest <|-- combat_plc_tester.model.moore.TransitionPlcTest
+combat_plc_tester.model.moore.TransitionTest *--> combat_plc_tester.model.moore.IO.Input: contains
+combat_plc_tester.model.moore.TransitionTest *--> combat_plc_tester.controller.TransitionTestObserver : contains
+combat_plc_tester.model.moore.TransitionPlcTest --> combat_plc_tester.controller.TransitionPlcTestObserver : update
+combat_plc_tester.controller.TransitionPlcTestObserver --> combat_plc_tester.view.TestView : update
+note as N1
+  TEMPLATE METHOD PATTERN:
+  - `TransitionTest` serves as the abstract class defining the template for a transtion test 
+    (writing inputs to the PLC).
+  - Subclasses (`TransitionPlcTest`) implement specific steps.
+end note
+note as N2
+  OBSERVER PATTERN FOR STATETEST:
+  - The `TransitionTest` interface defines the contract for transition-based testing.
+  - `TransitionPlcTest` acts as the subject, maintaining a list of `TransitionTestObserver` objects.
+  - Observers (e.g., `TransitionPlcTestObserver`) are notified when the transition changes.
+  - The `update` method in the observer propagates changes to the `TestView`.
+end note
+N1 -[hidden]-> N2
+@enduml
