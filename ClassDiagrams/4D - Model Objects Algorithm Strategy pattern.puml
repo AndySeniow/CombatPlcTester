@@ -1,0 +1,19 @@
+@startuml
+class combat_plc_tester_model.ModelFacade
+class combat_plc_tester_model.moore.CycleGenerator
+class combat_plc_tester_model.moore.CycleGeneratorAlgorithm
+class combat_plc_tester_model.moore.GraphElement
+interface combat_plc_tester_model.moore.CycleGeneratorStrategy
+note as N1
+  STRATEGY PATTERN:
+  - CycleGeneratorStrategy is the strategy interface.
+  - CycleGeneratorAlgorithm uses a CycleGeneratorStrategy.
+  - Concrete strategies implement CycleGeneratorStrategy.
+  - GraphElement represents the data being acted on by the strategies.
+end note
+combat_plc_tester_model.ModelFacade --> combat_plc_tester_model.moore.CycleGenerator : generate test cycles
+combat_plc_tester_model.moore.CycleGeneratorAlgorithm ..|> combat_plc_tester_model.moore.CycleGeneratorStrategy
+combat_plc_tester_model.moore.CycleGeneratorAlgorithm *--> combat_plc_tester_model.moore.GraphElement : contains
+combat_plc_tester_model.moore.CycleGenerator *--> combat_plc_tester_model.moore.CycleGeneratorStrategy : contains
+@enduml
+

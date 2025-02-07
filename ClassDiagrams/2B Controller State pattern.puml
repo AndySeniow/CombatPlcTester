@@ -1,0 +1,18 @@
+@startuml
+class combat_plc_tester.controller.AddCombinatorialTransitionHandler
+class combat_plc_tester.controller.AddLabelHandler
+class combat_plc_tester.controller.AddSequentialTransitionHandler
+class combat_plc_tester.controller.AddStateHandler
+class combat_plc_tester.controller.UpdateDeleteHandler
+interface combat_plc_tester.controller.StateHandler
+combat_plc_tester.controller.AddStateHandler ..|> combat_plc_tester.controller.StateHandler
+combat_plc_tester.controller.AddSequentialTransitionHandler ..|> combat_plc_tester.controller.StateHandler
+combat_plc_tester.controller.AddCombinatorialTransitionHandler ..|> combat_plc_tester.controller.StateHandler
+combat_plc_tester.controller.AddLabelHandler ..|> combat_plc_tester.controller.StateHandler
+combat_plc_tester.controller.UpdateDeleteHandler ..|> combat_plc_tester.controller.StateHandler
+note as N1
+  STATE PATTERN:
+  - The `StateHandler` interface represents the common behavior for different states.
+  - Concrete handlers (e.g., `AddStateHandler`, `AddLabelHandler`) implement the behavior for specific states.
+end note
+@enduml

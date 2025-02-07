@@ -1,0 +1,35 @@
+@startuml
+abstract class combat_plc_tester.model.moore.StateTest
+class combat_plc_tester.controller.TestController
+class combat_plc_tester.moore.ModelFacade
+class combat_plc_tester.model.moore.StatePlcTest
+class Moka7.S7Client
+interface combat_plc_tester.model.moore.IO.Output
+interface combat_plc_tester.controller.StateTestObserver
+class combat_plc_tester.controller.StatePlcTestObserver
+class combat_plc_tester.view.TestView
+combat_plc_tester.controller.TestController --> combat_plc_tester.moore.ModelFacade : execute test
+combat_plc_tester.moore.ModelFacade --> combat_plc_tester.model.moore.StateTest : execute state test
+combat_plc_tester.controller.StateTestObserver <|.. combat_plc_tester.controller.StatePlcTestObserver
+combat_plc_tester.model.moore.StateTest --> Moka7.S7Client : connect
+combat_plc_tester.model.moore.StateTest <|-- combat_plc_tester.model.moore.StatePlcTest
+combat_plc_tester.model.moore.StateTest *--> combat_plc_tester.model.moore.IO.Output: contains
+combat_plc_tester.model.moore.StateTest *--> combat_plc_tester.controller.StateTestObserver : contains
+combat_plc_tester.model.moore.StatePlcTest --> combat_plc_tester.controller.StatePlcTestObserver : update
+combat_plc_tester.controller.StatePlcTestObserver --> combat_plc_tester.view.TestView : update
+combat_plc_tester.model.moore.StatePlcTest --> Moka7.S7Client : read outputs
+note as N1
+  TEMPLATE METHOD PATTERN:
+  - `StateTest` serves as the abstract class defining the template for a state test 
+    (reading output from the PLC and comparing with the outputs of the model).
+  - Subclasses (`StatePlcTest`) implement specific steps.
+end note
+note as N2
+  OBSERVER PATTERN FOR STATETEST:
+  - The `StateTest` interface defines the contract for state-based testing.
+  - `StatePlcTest` acts as the subject, maintaining a list of `StateTestObserver` objects.
+  - Observers (e.g., `StatePlcTestObserver`) are notified when the state changes.
+  - The `update` method in the observer propagates changes to the `TestView`.
+end note
+N1 -[hidden]-> N2
+@enduml

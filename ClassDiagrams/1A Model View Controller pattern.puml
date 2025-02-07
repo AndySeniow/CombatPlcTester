@@ -1,0 +1,48 @@
+@startuml
+class combat_plc_tester.view.Views
+class combat_plc_tester.controller.TestController
+class combat_plc_tester.model.ModelFacade
+interface java.io.Serializable
+interface combat_plc_tester.controller.FileAdapter
+class combat_plc_tester.controller.SerializableFileAdapter
+combat_plc_tester.model.ModelFacade ..|> java.io.Serializable
+combat_plc_tester.controller.SerializableFileAdapter ..|> combat_plc_tester.controller.FileAdapter
+combat_plc_tester.view.Views --> combat_plc_tester.controller.TestController : user actions
+combat_plc_tester.controller.TestController --> combat_plc_tester.controller.SerializableFileAdapter : read, save
+combat_plc_tester.controller.TestController --> combat_plc_tester.view.Views : update user display
+combat_plc_tester.controller.TestController --> combat_plc_tester.model.ModelFacade : object management
+note as N1
+  DESIGN PATTERNS:
+  1. **MVC PATTERN**:
+     - **Model**:
+       * Represented by `ModelFacade`, which manages the underlying data.
+       * Handles object creation, updates, and retrieval.
+     - **View**:
+       * Represented by `Views`, encompassing all views in the project except `ModelView`.
+       * Responsible for presenting data to the user and capturing user actions.
+       * `ModelView`, responsible for drawing actions, is presented in 
+       * `1B Model View Controller with State and Command pattern for a state object` file.
+     - **Controller**:
+       * Represented by `TestController`, which mediates between the `Views` and the `ModelFacade` and manages the business rules.
+       * Processes user actions from the views and updates both the model and the user interface as needed.
+
+  2. **FACADE PATTERN**:
+     - The `ModelFacade` implements the **Facade Pattern** to simplify access to the underlying data model.
+     - **Purpose**:
+       * Provides a single, unified interface to a complex subsystem (the model layer).
+       * Encapsulates the complexity of object creation, updates, and data retrieval.
+       * Makes it easier for the `TestController` to interact with the model without knowing the specifics of its internal structure.
+     - **Usage**:
+       * The `TestController` communicates with `ModelFacade` for all model-related operations.
+
+  3. **ADAPTER PATTERN**:
+     - The `FileAdapter` interface defines a contract for saving and loading data.
+     - `SerializableFileAdapter` implements `FileAdapter` and provides a concrete implementation using the `Serializable` interface.
+     - **Purpose**:
+       * Decouples the file I/O logic from the `TestController` by providing a consistent interface.
+       * Makes it easier to replace or extend the file handling mechanism (e.g., switching from `Serializable` to JSON or XML).
+     - **Usage**:
+       * `TestController` interacts with `FileAdapter` to perform read and save operations.
+       * The specific implementation (`SerializableFileAdapter`) encapsulates the logic for serializing and deserializing objects.
+end note
+@enduml
